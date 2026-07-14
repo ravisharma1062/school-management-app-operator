@@ -38,6 +38,11 @@ export function SchoolDetailPage() {
     queryFn: () => subscriptionsApi.get(id!),
     enabled: !!id,
   });
+  const usageQuery = useQuery({
+    queryKey: ['school-usage', id],
+    queryFn: () => schoolsApi.getUsage(id!),
+    enabled: !!id,
+  });
 
   const statusMutation = useMutation({
     mutationFn: (status: SchoolStatus) => schoolsApi.updateStatus(id!, status),
@@ -84,6 +89,31 @@ export function SchoolDetailPage() {
         <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700">
           {error}
         </div>
+      )}
+
+      {usageQuery.data && (
+        <Card>
+          <CardHeader title="Usage" subtitle="Current consumption against this school's plan limits." />
+          <CardBody className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Active students</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {usageQuery.data.activeStudentCount}
+                {usageQuery.data.maxStudentsLimit != null && (
+                  <span className="text-base font-normal text-slate-400"> / {usageQuery.data.maxStudentsLimit}</span>
+                )}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Emails sent this month</p>
+              <p className="text-2xl font-bold text-slate-900">{usageQuery.data.emailsSentThisMonth}</p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">SMS sent this month</p>
+              <p className="text-2xl font-bold text-slate-900">{usageQuery.data.smsSentThisMonth}</p>
+            </div>
+          </CardBody>
+        </Card>
       )}
 
       <Card>
@@ -165,7 +195,11 @@ export function SchoolDetailPage() {
                     <li key={e.featureKey} className="flex items-center justify-between py-3">
                       <span className="text-sm font-medium text-slate-700">{e.featureKey.replace(/_/g, ' ')}</span>
                       <span className="flex items-center gap-2">
-                        {e.limitValue != null && <span className="text-xs text-slate-400">limit {e.limitValue}</span>}
+                        {e.limitValue != null && (
+                          <span className="text-xs text-slate-400">
+                            {e.currentUsage != null ? `${e.currentUsage} / ${e.limitValue}` : `limit ${e.limitValue}`}
+                          </span>
+                        )}
                         <Badge tone={e.enabled ? 'green' : 'gray'}>{e.enabled ? 'Included' : 'Not included'}</Badge>
                       </span>
                     </li>
