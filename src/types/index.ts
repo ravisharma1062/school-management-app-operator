@@ -65,6 +65,7 @@ export interface EntitlementDto {
   featureKey: FeatureKey;
   enabled: boolean;
   limitValue: number | null;
+  currentUsage: number | null;
 }
 
 export interface SubscriptionAdminDto {
@@ -83,6 +84,17 @@ export interface PlatformAnalyticsDto {
   totalSchools: number;
   schoolsByStatus: Partial<Record<SchoolStatus, number>>;
   schoolsByPlan: Partial<Record<PlanCode, number>>;
+  totalActiveStudents: number;
+  totalEmailsSentThisMonth: number;
+  totalSmsSentThisMonth: number;
+}
+
+export interface SchoolUsageDto {
+  schoolId: string;
+  activeStudentCount: number;
+  maxStudentsLimit: number | null;
+  emailsSentThisMonth: number;
+  smsSentThisMonth: number;
 }
 
 export interface AuditLogDto {

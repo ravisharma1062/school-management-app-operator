@@ -1,5 +1,5 @@
 import { api } from './client';
-import type { Page, SchoolAdminDto, SchoolStatus } from '@/types';
+import type { Page, SchoolAdminDto, SchoolStatus, SchoolUsageDto } from '@/types';
 
 export const schoolsApi = {
   list(page: number, size = 20) {
@@ -10,5 +10,8 @@ export const schoolsApi = {
   },
   updateStatus(id: string, status: SchoolStatus) {
     return api.patch<SchoolAdminDto>(`/schools/${id}/status`, { status }).then((r) => r.data);
+  },
+  getUsage(id: string) {
+    return api.get<SchoolUsageDto>(`/schools/${id}/usage`).then((r) => r.data);
   },
 };

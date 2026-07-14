@@ -19,12 +19,32 @@ export function AnalyticsPage() {
       ) : (
         query.data && (
           <div className="space-y-6">
-            <Card>
-              <CardBody>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Total schools</p>
-                <p className="text-4xl font-extrabold text-slate-900">{query.data.totalSchools}</p>
-              </CardBody>
-            </Card>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
+              <Card>
+                <CardBody>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Total schools</p>
+                  <p className="text-4xl font-extrabold text-slate-900">{query.data.totalSchools}</p>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardBody>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Active students</p>
+                  <p className="text-4xl font-extrabold text-slate-900">{query.data.totalActiveStudents}</p>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardBody>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Emails this month</p>
+                  <p className="text-4xl font-extrabold text-slate-900">{query.data.totalEmailsSentThisMonth}</p>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardBody>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">SMS this month</p>
+                  <p className="text-4xl font-extrabold text-slate-900">{query.data.totalSmsSentThisMonth}</p>
+                </CardBody>
+              </Card>
+            </div>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <Card>
