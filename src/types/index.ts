@@ -91,6 +91,28 @@ export interface PlatformAnalyticsDto {
 
 export interface PlatformSettingsDto {
   autoApproveSignups: boolean;
+  paymentInstructions: string | null;
+}
+
+// --- Manual billing (Phase MT-5) ---
+export type PaymentMethod = 'DEMAND_DRAFT' | 'CHEQUE' | 'NEFT';
+
+export type PaymentClaimStatus = 'PENDING_VERIFICATION' | 'VERIFIED' | 'REJECTED';
+
+export interface PlatformPaymentDto {
+  id: string;
+  schoolId: string;
+  schoolName: string;
+  amount: number;
+  method: PaymentMethod;
+  referenceNumber: string;
+  periodStart: string;
+  periodEnd: string;
+  status: PaymentClaimStatus;
+  submittedByEmail: string;
+  submittedAt: string;
+  verifiedAt: string | null;
+  notes: string | null;
 }
 
 export interface SchoolUsageDto {
