@@ -3,6 +3,7 @@ import {
   useId,
   type InputHTMLAttributes,
   type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
   type ReactNode,
 } from 'react';
 
@@ -83,6 +84,37 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
       >
         {children}
       </select>
+      <ErrorText>{error}</ErrorText>
+    </div>
+  );
+});
+
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+}
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
+  { label, error, id, required, className = '', ...rest },
+  ref,
+) {
+  const autoId = useId();
+  const textareaId = id ?? autoId;
+  return (
+    <div>
+      {label && (
+        <Label htmlFor={textareaId} required={required}>
+          {label}
+        </Label>
+      )}
+      <textarea
+        id={textareaId}
+        ref={ref}
+        required={required}
+        aria-invalid={!!error}
+        className={`${controlClass} ${error ? 'border-red-400' : ''} ${className}`}
+        {...rest}
+      />
       <ErrorText>{error}</ErrorText>
     </div>
   );

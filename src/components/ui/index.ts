@@ -1,5 +1,5 @@
 export { Button } from './Button';
-export { Input, Select } from './Field';
+export { Input, Select, Textarea } from './Field';
 export { Card, CardBody, CardHeader } from './Card';
 export { Badge, SchoolStatusBadge, SignupStatusBadge } from './Badge';
 export { Spinner, LoadingState, ErrorState, EmptyState } from './States';
