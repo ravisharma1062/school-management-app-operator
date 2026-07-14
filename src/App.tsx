@@ -7,6 +7,7 @@ import { SchoolsPage } from '@/pages/SchoolsPage';
 import { SchoolDetailPage } from '@/pages/SchoolDetailPage';
 import { AuditLogPage } from '@/pages/AuditLogPage';
 import { AnalyticsPage } from '@/pages/AnalyticsPage';
+import { SettingsPage } from '@/pages/SettingsPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export function App() {
@@ -22,6 +23,7 @@ export function App() {
           <Route path="/schools/:id" element={<SchoolDetailPage />} />
           <Route path="/audit-log" element={<AuditLogPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>

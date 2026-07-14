@@ -89,6 +89,10 @@ export interface PlatformAnalyticsDto {
   totalSmsSentThisMonth: number;
 }
 
+export interface PlatformSettingsDto {
+  autoApproveSignups: boolean;
+}
+
 export interface SchoolUsageDto {
   schoolId: string;
   activeStudentCount: number;

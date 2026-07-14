@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: '/schools', label: 'Schools', icon: '🏫' },
   { to: '/audit-log', label: 'Audit Log', icon: '📜' },
   { to: '/analytics', label: 'Analytics', icon: '📊' },
+  { to: '/settings', label: 'Settings', icon: '⚙️' },
 ];
 
 function navLinkClass(isActive: boolean) {
