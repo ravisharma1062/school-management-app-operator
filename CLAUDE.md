@@ -4,6 +4,8 @@ Internal, high-privilege React console for the School Management App's **platfor
 
 **Sibling repos** (same backend, different clients — not shared code, not in this repo): `school-management-app-backen` (the API), `school-management-app-ui` (tenant-facing web), `school-management-app-android` (tenant-facing mobile), `school-management-app-marketing` (public site). Backend DTOs are hand-mirrored here in `src/types/index.ts` with no shared schema/codegen.
 
+**If you're editing `src/types/index.ts` because a backend DTO changed:** this repo owns most of the platform/subscription/billing DTOs (`SubscriptionDto`, `EntitlementDto`, `SchoolUsageDto`, `PlatformAnalyticsDto`, `AuditLogDto`, `SignupRequestDto`, `PlatformSettingsDto`, `PaymentClaimDto`, `PlatformPaymentDto`), but `web`'s Account page and Android's Account screen also consume the subset they display (subscription/entitlement/billing) — check the backend's `CLAUDE.md` "Cross-repo checklist" for which DTO needs which client.
+
 ## What it does
 
 - Review and approve/reject inbound school signup requests, provisioning a school + subscription + entitlements + a single-use admin invite link in one action. (Self-service trial signups from `marketing` skip this queue entirely and provision immediately — they show up already-active in the Schools list, with a `TRIAL_SELF_PROVISIONED` audit entry.)
