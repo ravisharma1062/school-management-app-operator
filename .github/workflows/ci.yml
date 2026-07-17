@@ -16,7 +16,11 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - run: npm ci
+      # Using npm install rather than npm ci for consistency with web/marketing, which hit a
+      # real npm bug where npm ci hard-fails on a legitimately-skippable cross-platform optional
+      # esbuild binary instead of silently skipping it. This repo's current lock file (older
+      # vitest, older esbuild) doesn't trigger it today, but a future dependency bump could.
+      - run: npm install
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
