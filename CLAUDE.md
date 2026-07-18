@@ -14,8 +14,9 @@ Internal, high-privilege React console for the School Management App's **platfor
 - Edit global platform **Settings**: `autoApproveSignups` toggle (skips the review queue for all new signups when on) and the payment-instructions text shown on every school's Billing page.
 - View the audit log of every platform action, including a `"System (self-service)"` entry for actions with no human operator.
 - View platform analytics: tenant counts by status/plan, aggregate totals (active students, emails/SMS sent this month across all schools).
+- **`/activate`** (public, no auth) — a newly-provisioned founding admin's set-password page, reached from their activation email. Added because the link `ProvisioningService` emails (`{app.operator.activation-base-url}?token=...`, default `http://localhost:5174/activate`) had no page behind it until this was built — the backend endpoints (`AuthController#activationInfo`/`#activate`) existed and were covered by backend integration tests, but nothing in any frontend called them. On success, redirects to `VITE_WEB_APP_URL`'s `/login` (this console never authenticates tenant users itself).
 
-Authenticates against the backend's separate `/api/v1/platform/**` surface — platform JWTs are not interchangeable with school-facing tokens (`JwtAuthFilter` rejects cross-surface use).
+Authenticates against the backend's separate `/api/v1/platform/**` surface — platform JWTs are not interchangeable with school-facing tokens (`JwtAuthFilter` rejects cross-surface use). The one exception is `/activate`, which calls the tenant-realm `/api/v1/auth/*` endpoints directly via a plain axios call (`src/api/activation.ts`), bypassing the platform-scoped `api` client in `client.ts` entirely — no bearer token involved either way, since it's a public, single-use-token-authorized flow.
 
 ## Stack
 
@@ -23,12 +24,12 @@ React 18.3 + TypeScript 5.5, Vite 5.3, Tailwind 3.4, TanStack React Query 5.51, 
 
 ## Folder structure (`src/`)
 
-- `api/` — `platformAuth.ts`, `signupRequests.ts`, `schools.ts`, `subscriptions.ts`, `auditLogs.ts`, `analytics.ts`, `payments.ts`, `settings.ts`, plus `client.ts`/`tokenStorage.ts`.
+- `api/` — `platformAuth.ts`, `signupRequests.ts`, `schools.ts`, `subscriptions.ts`, `auditLogs.ts`, `analytics.ts`, `payments.ts`, `settings.ts`, plus `client.ts`/`tokenStorage.ts` (platform-scoped), and `activation.ts` (tenant-realm, standalone — see above).
 - `components/ui/` — copied/trimmed from `web`'s kit: `Button`, `Card`, `Table`, `Badge`, `States`, `PageHeader`, `Pagination`, `Modal`, `Field`, plus `Textarea` (payment-instructions field).
 - `components/layout/` — `AppShell`, `RequireAuth`.
 - `context/PlatformAuthContext.tsx` — the sole global context (platform-user session, separate token pair from the tenant apps).
-- `pages/` — `LoginPage` (+ MFA step), `SignupQueuePage`, `SchoolsPage`/`SchoolDetailPage`, `AuditLogPage`, `AnalyticsPage`, `PaymentsPage`, `SettingsPage`, `NotFoundPage`.
-- `types/index.ts` — DTOs mirroring the backend's `platform`/`billing` package contracts.
+- `pages/` — `LoginPage` (+ MFA step), `ActivatePage`, `SignupQueuePage`, `SchoolsPage`/`SchoolDetailPage`, `AuditLogPage`, `AnalyticsPage`, `PaymentsPage`, `SettingsPage`, `NotFoundPage`.
+- `types/index.ts` — DTOs mirroring the backend's `platform`/`billing` package contracts, plus `ActivationInfoDto` (tenant realm).
 
 ## Auth flow
 

@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { RequireAuth } from '@/components/layout/RequireAuth';
 import { AppShell } from '@/components/layout/AppShell';
 import { LoginPage } from '@/pages/LoginPage';
+import { ActivatePage } from '@/pages/ActivatePage';
 import { SignupQueuePage } from '@/pages/SignupQueuePage';
 import { SchoolsPage } from '@/pages/SchoolsPage';
 import { SchoolDetailPage } from '@/pages/SchoolDetailPage';
@@ -15,6 +16,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/activate" element={<ActivatePage />} />
 
       <Route element={<RequireAuth />}>
         <Route element={<AppShell />}>

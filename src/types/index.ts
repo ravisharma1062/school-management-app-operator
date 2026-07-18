@@ -34,6 +34,11 @@ export interface MfaEnrollResponse {
   otpAuthUri: string;
 }
 
+export interface ActivationInfoDto {
+  schoolName: string;
+  adminEmail: string;
+}
+
 export interface SignupRequestDto {
   id: string;
   schoolName: string;

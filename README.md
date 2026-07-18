@@ -21,6 +21,12 @@ deployed and secured independently.
   human operator, e.g. self-service trial provisioning).
 - View platform analytics: tenant counts by status/plan, plus aggregate totals (active students, emails/SMS sent
   this month across all schools).
+- **`/activate`** — a public (no-JWT), single-use page a newly-provisioned school's founding admin lands on from
+  their activation email, to set a password. Deliberately hosted here rather than in `web`, since a not-yet-activated
+  tenant admin has no `web` credentials to log in with yet. Success redirects to `VITE_WEB_APP_URL`'s `/login` — this
+  console never itself authenticates tenant users. Backed by the tenant-realm `GET /api/v1/auth/activation/{token}` +
+  `POST /api/v1/auth/activate` endpoints (public, token-authorized — see `AuthController`/`ActivationService` in the
+  backend), not the platform-realm API this app otherwise talks to.
 
 Authenticates against the backend's separate `/api/v1/platform/**` surface — platform JWTs are not interchangeable
 with school-facing tokens (see `common/security/JwtAuthFilter` in the backend).
@@ -29,7 +35,7 @@ with school-facing tokens (see `common/security/JwtAuthFilter` in the backend).
 
 ```bash
 npm install
-cp .env.example .env   # point VITE_API_BASE_URL at your backend
+cp .env.example .env   # point VITE_API_BASE_URL at your backend, VITE_WEB_APP_URL at your web app
 npm run dev             # http://localhost:5174
 ```
 
